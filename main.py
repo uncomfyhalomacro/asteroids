@@ -15,13 +15,21 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     while True:
         for event in pygame.event.get():
+            if event.type in [
+                pygame.WINDOWSHOWN,
+                pygame.WINDOWENTER,
+                pygame.WINDOWFOCUSGAINED,
+            ]:
+                screen.fill("#000000")
+                player.draw(screen)
+                pygame.display.update()
             if event.type == pygame.KEYDOWN:
                 player.update(dt)
+                screen.fill("#000000")
+                player.draw(screen)
+                pygame.display.update()
             if event.type == pygame.QUIT:
                 sys.exit()
-        screen.fill("#000000")
-        player.draw(screen)
-        pygame.display.update()
         clock.tick(60)
 
 
