@@ -13,6 +13,10 @@ def main():
     dt = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    display = pygame.display
+    updatable = pygame.sprite.Group(player)
+    drawable = pygame.sprite.Group(player)
+    player.containers = (updatable, drawable)
     while True:
         for event in pygame.event.get():
             if event.type in [
@@ -21,13 +25,15 @@ def main():
                 pygame.WINDOWFOCUSGAINED,
             ]:
                 screen.fill("#000000")
-                player.draw(screen)
-                pygame.display.update()
+                for entity in drawable:
+                    entity.draw(screen)
+                    display.update()
             if event.type == pygame.KEYDOWN:
-                player.update(dt)
+                updatable.update(dt)
                 screen.fill("#000000")
-                player.draw(screen)
-                pygame.display.update()
+                for entity in drawable:
+                    entity.draw(screen)
+                    display.update()
             if event.type == pygame.QUIT:
                 sys.exit()
         clock.tick(60)

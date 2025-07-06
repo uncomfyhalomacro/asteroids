@@ -4,12 +4,16 @@ import pygame
 
 
 class Player(CircleShape):
+
+    containers = []
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.position = (self.x, self.y)
         self.rotation = 0
         self.radius = PLAYER_RADIUS
+        super().__init__(self.x, self.y, self.radius)
 
     def triangle(self):
         forward = pygame.Vector2(0, 2).rotate(self.rotation)
