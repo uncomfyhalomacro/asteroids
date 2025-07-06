@@ -63,7 +63,7 @@ class Player(CircleShape):
         self.rotation += PLAYER_TURN_SPEED * dt
 
     def update(self, dt):
-        self.shoot_timer -= dt * PLAYER_SHOOT_COOLDOWN
+        self.shoot_timer -= dt
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
@@ -82,8 +82,6 @@ class Player(CircleShape):
             if self.shoot_timer <= 0:
                 self.shoot(PLAYER_SHOOT_COOLDOWN - 0.1)
                 self.shoot_timer = PLAYER_SHOOT_COOLDOWN
-            else:
-                print("gun is in cooldown!")
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)

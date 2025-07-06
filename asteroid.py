@@ -25,17 +25,19 @@ class Asteroid(CircleShape):
         if self.radius <= ASTEROID_MIN_RADIUS:
             print("asteroid destroyed")
             self.kill()
+            return True
         elif ASTEROID_MIN_RADIUS * 2 == self.radius:
             self.spawn(ASTEROID_MIN_RADIUS, self.position)
             self.radius = ASTEROID_MIN_RADIUS
         elif ASTEROID_MAX_RADIUS == self.radius:
             self.spawn(ASTEROID_MIN_RADIUS * 2, self.position)
             self.radius = ASTEROID_MIN_RADIUS * 2
+        return False
 
     def spawn(self, radius, position):
         speed = random.randint(40, 100)
         velocity = pygame.Vector2(0, 1) * speed
-        velocity.rotate(random.randint(-30, 30))
+        velocity.rotate(random.randint(-60, 60))
         asteroid = Asteroid(position.x, position.y, radius)
         asteroid.velocity = velocity
-        self.velocity.rotate(random.randint(-30, 30))
+        self.velocity.rotate(random.randint(-60, 60))
