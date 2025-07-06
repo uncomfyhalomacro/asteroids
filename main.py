@@ -43,7 +43,9 @@ def main():
 
             if player.has_collided_with(asteroid):
                 print("Game over!")
-                print(f"Number of asteroids destroyed before succumbing to skill issue: {asteroids_destroyed}")
+                print(
+                    f"Number of asteroids destroyed before succumbing to skill issue: {asteroids_destroyed}"
+                )
                 sys.exit(1)
         for entity in drawable:
             entity.draw(screen)
