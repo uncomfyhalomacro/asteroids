@@ -4,9 +4,11 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 import pygame
 import sys
+import random
 
 
 def main():
+    random.seed(1)
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
@@ -21,7 +23,7 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     Bullet.containers = (bullets, updatable, drawable)
     Player.containers = (updatable, drawable)
-    AsteroidField.containers = (updatable)
+    AsteroidField.containers = updatable
     asteroidfield = AsteroidField()
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     display = pygame.display
@@ -36,7 +38,7 @@ def main():
                 if bullet.has_collided_with(asteroid):
                     print("bullet has hit an asteroid!")
                     bullet.kill()
-                    asteroid.kill()
+                    asteroid.split(screen)
 
             if player.has_collided_with(asteroid):
                 print("Game over!")
