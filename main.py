@@ -35,6 +35,8 @@ def main():
             for bullet in bullets:
                 if bullet.has_collided_with(asteroid):
                     print("bullet has hit an asteroid!")
+                    bullet.kill()
+                    asteroid.kill()
 
             if player.has_collided_with(asteroid):
                 print("Game over!")
@@ -42,7 +44,7 @@ def main():
         for entity in drawable:
             entity.draw(screen)
             display.update()
-        dt = clock.tick(60) / 1000
+        dt = clock.tick(30) / 1000
 
 
 if __name__ == "__main__":
