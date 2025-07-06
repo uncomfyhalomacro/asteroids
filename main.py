@@ -1,5 +1,7 @@
 from constants import *
-from player import Player
+from player import Player, Bullet
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 import pygame
 import sys
 
@@ -12,31 +14,35 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    bullets = pygame.sprite.Group()
+    Asteroid.containers = (asteroids, updatable, drawable)
+    Bullet.containers = (bullets, updatable, drawable)
+    Player.containers = (updatable, drawable)
+    AsteroidField.containers = (updatable)
+    asteroidfield = AsteroidField()
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     display = pygame.display
-    updatable = pygame.sprite.Group(player)
-    drawable = pygame.sprite.Group(player)
-    player.containers = (updatable, drawable)
     while True:
         for event in pygame.event.get():
-            if event.type in [
-                pygame.WINDOWSHOWN,
-                pygame.WINDOWENTER,
-                pygame.WINDOWFOCUSGAINED,
-            ]:
-                screen.fill("#000000")
-                for entity in drawable:
-                    entity.draw(screen)
-                    display.update()
-            if event.type == pygame.KEYDOWN:
-                updatable.update(dt)
-                screen.fill("#000000")
-                for entity in drawable:
-                    entity.draw(screen)
-                    display.update()
             if event.type == pygame.QUIT:
                 sys.exit()
-        clock.tick(60)
+        screen.fill("#000000")
+        updatable.update(dt)
+        for asteroid in asteroids:
+            for bullet in bullets:
+                if bullet.has_collided_with(asteroid):
+                    print("bullet has hit an asteroid!")
+
+            if player.has_collided_with(asteroid):
+                print("Game over!")
+                sys.exit(1)
+        for entity in drawable:
+            entity.draw(screen)
+            display.update()
+        dt = clock.tick(60) / 1000
 
 
 if __name__ == "__main__":
